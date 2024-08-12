@@ -4,6 +4,42 @@ const FULL_HEART = '♥'
 
 // Your JavaScript code goes here!
 
+document.addEventListener('DOMContentLoaded', () => {
+  // Hiding the modal on page load
+  const modal = document.getElementById('modal');
+  modal.classList.add('hidden');
+
+  // Adding event listeners to all like elements
+  const likeElements = document.querySelectorAll('.like-glyph');
+  likeElements.forEach(likeElement => {
+    likeElement.addEventListener('click', () => {
+      // Simulate server call
+      mimicServerCall()
+        .then(() => {
+          // Toggle heart and activated-heart class on success
+          if (likeElement.innerText === EMPTY_HEART) {
+            likeElement.innerText = FULL_HEART;
+            likeElement.classList.add('activated-heart');
+          } else {
+            likeElement.innerText = EMPTY_HEART;
+            likeElement.classList.remove('activated-heart');
+          }
+        })
+        .catch((error) => {
+          // Display the error modal and message on failure
+          const modalMessage = document.getElementById('modal-message');
+          modalMessage.innerText = error;
+          modal.classList.remove('hidden');
+
+          // Hide the modal after 3 seconds
+          setTimeout(() => {
+            modal.classList.add('hidden');
+          }, 3000);
+        });
+    });
+  });
+});
+
 
 
 
